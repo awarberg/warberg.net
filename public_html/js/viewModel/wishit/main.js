@@ -1,4 +1,4 @@
-define(["./Wishlist"], function (Wishlist) {
+define(["./wishlist"], function (Wishlist) {
 
   function Main() {
     var self = this;

@@ -1,4 +1,4 @@
-define(["./Item"], function (Item) {
+define(["./item"], function (Item) {
   function Wishlist(name) {
     var self=this;
     this.name = ko.observable(name);
