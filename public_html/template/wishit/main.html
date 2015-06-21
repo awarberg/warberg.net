@@ -1,0 +1,43 @@
+<h1>Wishlist</h1>
+<div class="row">
+  <div class="col m6">
+    <button class="btn-large" data-bind="click: createNew">New wishlist</button>
+    <ul data-bind="foreach: lists">
+      <li data-bind="">
+        <!-- ko ifnot: editing -->
+        <span>
+          <label data-bind="text: name, click: edit"></label>
+          <a href="#" data-bind="click: $parent.toggleList">show</a>
+        </span>
+        <!-- /ko -->
+        <!-- ko if: editing -->
+        <div class="col s12">
+          <input-field params="type:'text',value:name,text:'Name',hasFocus:editing"></input-field>
+        </div>
+        <!-- /ko -->
+      </li>
+    </ul>
+
+  </div>
+
+  <div class="col m6">
+    <!-- ko with: selectedList -->
+    <!-- ko if: $data -->
+    <strong data-bind="text: name"></strong>
+    <ul data-bind="foreach: items">
+      <li>
+        <!-- ko ifnot: editing -->
+        <label data-bind="text: name, click: edit"></label>
+        <!-- /ko -->
+        <!-- ko if: editing -->        
+        <div class="col s12">
+          <input-field params="type:'text',value:name,text:'Wish',hasFocus:editing"></input-field>
+        </div>
+        <!-- /ko -->
+      </li>
+    </ul>
+    <a data-bind="click:createNew" class="btn-floating disabled"><i class="mdi-content-add"></i></a>
+    <!-- /ko -->
+    <!-- /ko -->
+  </div>
+</div>

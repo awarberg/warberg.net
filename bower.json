@@ -1,0 +1,22 @@
+{
+  "name": "warberg.net",
+  "version": "0.0.0",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0"
+  },
+  "authors": [
+    "Andreas Warberg <andreas@warberg.net>"
+  ],
+  "moduleType": [
+    "amd",
+    "es6"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
