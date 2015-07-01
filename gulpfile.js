@@ -23,3 +23,6 @@ gulp.task('connect-sync', function () {
     browserSync.reload();
   });
 });
+
+// cd C:\Installers\php-5.6.10-nts-Win32-VC11-x86
+// .\php -S localhost:8000 -t C:\PROJECTS\warberg.net\public_html

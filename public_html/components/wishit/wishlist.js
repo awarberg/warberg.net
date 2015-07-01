@@ -1,6 +1,7 @@
 define(["./item"], function (Item) {
   function Wishlist(json) {
     var self = this;
+    this.id = json["id"];
     this.name = ko.observable(json["name"]);
     this.items = ko.observableArray(
       json["items"].map(function (jsonItem) {
@@ -35,6 +36,13 @@ define(["./item"], function (Item) {
       self.sortedItems().forEach(function (item, index) {
         item.order(index + 1);
       });
+    };
+    this.toJSON = function () {
+      return {
+        id: self.id,
+        name: self.name(),
+        items: self.sortedItems()
+      };
     };
   }
 

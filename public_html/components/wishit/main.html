@@ -12,9 +12,21 @@
     <!-- /ko -->
   </div>
   <div class="row">
-    <a data-bind="click:createNew" class="waves-effect waves-light btn">
-      <i class="material-icons left"></i>Add wish
-    </a>
+    <div class="col s6">
+      <a data-bind="click:createNew" class="waves-effect waves-light btn">
+        <i class="material-icons left"></i>Add wish
+      </a>
+    </div>
+    <div class="col s3">
+      <a data-bind="click:$component.save" class="waves-effect waves-light btn">
+        <i class="material-icons left"></i>Save list
+      </a>
+    </div>
+    <div class="col s3">
+      <a data-bind="click:$component.createNew" class="waves-effect waves-light btn">
+        <i class="material-icons left"></i>New list
+      </a>
+    </div>
     <div class="col s12 collection" data-bind="foreach:sortedItems">
       <div class="row collection-item">
         <div class="col s1">
