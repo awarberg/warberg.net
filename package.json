@@ -8,7 +8,6 @@
   "repository": {},
   "license": "MIT",
   "devDependencies": {
-    "browser-sync": "^2.7.12",
     "gulp": "^3.9.0"
   }
 }

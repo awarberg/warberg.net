@@ -1,0 +1,41 @@
+<h2>Wishit</h2>
+<div class="row">
+  <!-- ko with: selectedList -->
+  <div class="col m12">
+    <!-- ko ifnot: editing -->
+    <strong data-bind="text:name,click:edit"></strong>
+    <!-- /ko -->
+    <!-- ko if: editing -->
+    <div class="col s12">
+      <input-field params="type:'text',value:name,text:'Name of wishlist',hasFocus:editing"></input-field>
+    </div>
+    <!-- /ko -->
+  </div>
+  <div class="row">
+    <a data-bind="click:createNew" class="waves-effect waves-light btn">
+      <i class="material-icons left"></i>Add wish
+    </a>
+    <div class="col s12 collection" data-bind="foreach:sortedItems">
+      <div class="row collection-item">
+        <div class="col s1">
+          <p data-bind="text: order"></p>
+        </div>
+        <div class="col s6">
+          <!-- ko ifnot: editing -->
+          <p data-bind="text:name,click:edit"></p>
+          <!-- /ko -->
+          <!-- ko if: editing -->
+          <input-field params="type:'text',value:name,text:'Wish short description',hasFocus:editing"></input-field>
+          <!-- /ko -->
+        </div>
+        <span class="badge">
+          <a data-bind="click:$parents[0].remove">
+            remove
+          </a>
+        </span>
+      </div>
+    </div>
+  </div>
+  <!-- /ko -->
+</div>
+</div>

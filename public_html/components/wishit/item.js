@@ -1,7 +1,8 @@
 define(function () {
-  function Item(name) {
-    this.name = ko.observable(name);
-    
+  function Item(json) {
+    this.name = ko.observable(json["name"]);
+    this.order = ko.observable(json["order"]);
+
     this.editing = ko.observable(false);
     this.edit = function () {
       this.editing(!this.editing());
