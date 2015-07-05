@@ -1,15 +1,33 @@
-<?php 
+<?php
 
 require_once("core.php");
 
-$wid = $_GET["wid"];
 $text = file_get_contents('php://input');
 $json = json_decode($text, true);
-$wishlist = new Wishlist($json);
-
+$wishlist = Wishlist::fromJSON($json);
 validate($wishlist);
 
-$filepath = getPath($wid);
-file_put_contents($filepath, json_encode($wishlist, JSON_PRETTY_PRINT));
+$pdo = getPDO();
+
+$pdo->beginTransaction();
+
+$sth = $pdo->prepare(
+  "insert into wishlist (public_key,name) values (?,?)"
+);
+$sth->execute([
+   $wishlist->publicKey,
+   $wishlist->name]
+);
+$wishlistId = $pdo->query("select last_insert_rowid()")->fetchColumn();
+
+$sth = $pdo->prepare(
+  "insert into item (wishlist_id,name,priority) values (?,?,?)"
+);
+
+foreach ($wishlist->items as $item) {
+  $sth->execute([$wishlistId, $item->name, $item->priority]);
+}
+
+$pdo->commit();
 
 ?>

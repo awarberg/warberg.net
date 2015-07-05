@@ -2,7 +2,7 @@ define(function () {
   function Item(json) {
     var self = this;
     this.name = ko.observable(json["name"]);
-    this.order = ko.observable(json["order"]);
+    this.priority = ko.observable(json["priority"]);
 
     this.editing = ko.observable(false);
     this.edit = function () {
@@ -10,7 +10,8 @@ define(function () {
     };
     this.toJSON = function () {
       return {
-        name: self.name()
+        name: self.name(),
+        priority: self.priority()
       };
     };
   }

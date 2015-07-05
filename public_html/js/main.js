@@ -19,7 +19,7 @@ ko.components.register("wishit-main", {
   require: "components/wishit/main"
 });
 
-require(["js/router"], function (Router) {
+require(["js/router"], function(Router) {
   var mainRouter = new Router(document, $("#main"));
   mainRouter.init();
 

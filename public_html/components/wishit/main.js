@@ -8,8 +8,9 @@ define(
       this.load = function (json) {
         var wishlist = new Wishlist(json);
         wishlist.editing(true);
+        wishlist.reprioritize();
         self.selectedList(wishlist);
-        queryParams.set("wid", wishlist.id);
+        queryParams.set("publicKey", wishlist.publicKey);
       };
       this.createNew = function () {
         $.getJSON("/cgi-bin/wishit/api/new.php")
@@ -20,9 +21,7 @@ define(
         var json = JSON.stringify(list);
         $.ajax({
             type: "POST",
-            url: "/cgi-bin/wishit/api/save.php?" + $.param({
-              wid: list.id
-            }),
+            url: "/cgi-bin/wishit/api/save.php",
             dataType: "json",
             data: json
           })
@@ -30,10 +29,10 @@ define(
             alert("Saved");
           });
       };
-      var wishId = queryParams.get("wid");
-      if (wishId) {
+      var publicKey = queryParams.get("publicKey");
+      if (publicKey) {
         $.getJSON("/cgi-bin/wishit/api/get.php", {
-            wid: wishId
+            publicKey: publicKey
           })
           .done(self.load);
       } else {

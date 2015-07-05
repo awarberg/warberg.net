@@ -1,45 +1,45 @@
-define(["./item"], function (Item) {
+define(["./item"], function(Item) {
   function Wishlist(json) {
     var self = this;
-    this.id = json["id"];
+    this.publicKey = json["publicKey"];
     this.name = ko.observable(json["name"]);
     this.items = ko.observableArray(
-      json["items"].map(function (jsonItem) {
+      json["items"].map(function(jsonItem) {
         return new Item(jsonItem);
       })
     );
-    this.sortedItems = ko.pureComputed(function () {
-      return _.sortBy(self.items(), function (item) {
-        return item.order();
+    this.sortedItems = ko.pureComputed(function() {
+      return _.sortBy(self.items(), function(item) {
+        return item.priority();
       });
     }).extend({
       rateLimit: 0
     });
     this.editing = ko.observable(false);
-    this.edit = function () {
+    this.edit = function() {
       this.editing(!this.editing());
     };
-    this.createNew = function () {
+    this.createNew = function() {
       var item = new Item({
         name: "Untitled wish",
-        order: 0
+        priority: 0
       });
       item.editing(true);
       self.items.push(item);
-      self.reorder();
+      self.reprioritize();
     };
-    this.remove = function (item) {
+    this.remove = function(item) {
       self.items.remove(item);
-      self.reorder();
+      self.reprioritize();
     };
-    this.reorder = function () {
-      self.sortedItems().forEach(function (item, index) {
-        item.order(index + 1);
+    this.reprioritize = function() {
+      self.sortedItems().forEach(function(item, index) {
+        item.priority(index + 1);
       });
     };
-    this.toJSON = function () {
+    this.toJSON = function() {
       return {
-        id: self.id,
+        publicKey: self.publicKey,
         name: self.name(),
         items: self.sortedItems()
       };

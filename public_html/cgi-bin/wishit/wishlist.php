@@ -1,24 +1,16 @@
-<?php 
+<?php
 
 require_once("item.php");
 
-class Wishlist {  
+class Wishlist {
 
-  public $id;
+  protected $id;
+  public $publicKey;
   public $name;
   public $items;
 
-  public function __construct($json) {
-    $this->id = $json["id"];
-    $this->name = $json["name"];
-    $this->items = array_map(
-      function($itemJson){ return new Item($itemJson); }, 
-      $json["items"]
-    );
-  }
-
   public function isValid(){
-    if(strlen($this->id) == 0){
+    if(strlen($this->publicKey) == 0){
       return false;
     }
     if(strlen($this->name) == 0){
@@ -26,10 +18,29 @@ class Wishlist {
     }
     foreach($this->items as $item){
       if(!$item->isValid()){
-        return false; 
+        return false;
       }
     }
     return true;
+  }
+
+  public static function fromJSON($json) {
+    $wishlist = new Wishlist();
+    $wishlist->publicKey = coalesce($json["publicKey"]);
+    $wishlist->name = $json["name"];
+    $wishlist->items = array_map(
+      "Item::fromJSON",
+      $json["items"]
+    );
+    return $wishlist;
+  }
+
+  public static function fromResult($result){
+    $wishlist = new Wishlist();
+    $wishlist->id = $result["id"];
+    $wishlist->publicKey = $result["public_key"];
+    $wishlist->name = $result["name"];
+    return $wishlist;
   }
 }
 
