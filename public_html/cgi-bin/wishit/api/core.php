@@ -1,5 +1,7 @@
 <?php
 
+require_once("../lib/RedBeanPHP/rb.php");
+
 require_once("../../shared/core.php");
 require_once("../../shared/json.php");
 require_once("../wishlist.php");

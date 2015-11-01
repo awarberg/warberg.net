@@ -1,22 +1,22 @@
 define(
   ["knockout", "js/queryParams", "text!./main.html", "./wishlist"],
-  function (ko, queryParams, template, Wishlist) {
+  function(ko, queryParams, template, Wishlist) {
 
     function Wishit(json) {
       var self = this;
       this.selectedList = ko.observable();
-      this.load = function (json) {
+      this.load = function(json) {
         var wishlist = new Wishlist(json);
         wishlist.editing(true);
         wishlist.reprioritize();
         self.selectedList(wishlist);
         queryParams.set("publicKey", wishlist.publicKey);
       };
-      this.createNew = function () {
+      this.createNew = function() {
         $.getJSON("/cgi-bin/wishit/api/new.php")
           .done(self.load);
       };
-      this.save = function () {
+      this.save = function() {
         var list = self.selectedList();
         var json = JSON.stringify(list);
         $.ajax({
@@ -25,19 +25,21 @@ define(
             dataType: "json",
             data: json
           })
-          .done(function () {
+          .done(function() {
             alert("Saved");
           });
       };
-      var publicKey = queryParams.get("publicKey");
-      if (publicKey) {
-        $.getJSON("/cgi-bin/wishit/api/get.php", {
-            publicKey: publicKey
-          })
-          .done(self.load);
-      } else {
-        self.createNew();
-      }
+      queryParams.subscribe("publicKey", function(publicKey) {
+        if (publicKey) {
+          $.getJSON("/cgi-bin/wishit/api/get.php", {
+              publicKey: publicKey
+            })
+            .done(self.load);
+        } else {
+          self.createNew();
+        }
+      });
+      queryParams.reset(["publicKey"]);
     }
 
     return {

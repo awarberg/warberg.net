@@ -19,12 +19,29 @@ ko.components.register("wishit-main", {
   require: "components/wishit/main"
 });
 
-require(["js/router"], function(Router) {
-  var mainRouter = new Router(document, $("#main"));
-  mainRouter.init();
+require(["js/queryParams"], function(queryParams) {
+  var vm = {
+    page: ko.observable()
+  };
+  var main = $("#main");
+  queryParams.subscribe("page", function(page) {
+    vm.page(page);
+    $("[data-page]").each(function() {
+      var $this = $(this);
+      var active = $this.data("page") === page;
+      $this.toggleClass("orange", active);
+      $this.toggleClass("purple", !active);
+    });
+  });
+  queryParams.reset(["page"]);
+  $("body").on("click", "[data-page]", function() {
+    var page = $(this).data("page");
+    if (queryParams.get("page") !== page) {
+      queryParams.replace({
+        "page": page
+      });
+    }
+  });
 
-  var vm = {};
-  var body = $("body");
-
-  ko.applyBindings(vm, body[0]);
+  ko.applyBindings(vm, main[0]);
 });

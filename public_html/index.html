@@ -26,13 +26,19 @@
   <div class="section">
     <div class="container">
       <div class="row center">
-        <button data-route="about" class="btn-large waves-effect waves-light purple">About</a>
-          <button data-route="wishit" class="btn-large waves-effect waves-light purple">Wishit</a>
+        <button data-page="about" class="btn-large waves-effect waves-light purple">About</a>
+          <button data-page="wishit" class="btn-large waves-effect waves-light purple">Wishit</a>
       </div>
     </div>
   </div>
   <div class="section">
     <div class="container" id="main">
+      <!-- ko if: page() === 'about' -->
+      <about-main></about-main>
+      <!-- /ko -->
+      <!-- ko if: page() === 'wishit' -->
+      <wishit-main></wishit-main>
+      <!-- /ko -->
     </div>
   </div>
 </body>

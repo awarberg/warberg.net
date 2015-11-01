@@ -17,15 +17,34 @@ define(["knockout"],
 
     function QueryParams() {
       var self = this;
+      var callbacks = [];
+      var suppressPushState = false;
       var queryParams = ko.observableArray(
         parseQueryString()
         .map(function(queryParam) {
           return {
             name: queryParam.name,
             value: ko.observable(queryParam.value)
-          }
+          };
         })
       );
+
+      function toParams(nameValuePairs) {
+        var params = {};
+        (nameValuePairs || []).forEach(function(nvp) {
+          params[nvp.name] = nvp.value;
+        });
+        return params;
+      }
+      window.addEventListener("popstate", function(e) {
+        try {
+          suppressPushState = true;
+          var params = toParams(e.state);
+          self.replace(params);
+        } finally {
+          suppressPushState = false;
+        }
+      });
       ko.pureComputed(function() {
           var nameValuePairs = queryParams()
             .map(function(queryParam) {
@@ -33,15 +52,25 @@ define(["knockout"],
                 name: queryParam.name,
                 value: queryParam.value()
               };
+            })
+            .filter(function(nvp) {
+              return nvp.value !== undefined;
             });
           return nameValuePairs;
         })
         .subscribe(function(nameValuePairs) {
-          var url = nameValuePairs.length > 0 ? (
-            "?" + nameValuePairs.map(function(nvp) {
-              return nvp.name + "=" + nvp.value;
-            }).join("&")) : "";
-          history.pushState(nameValuePairs, "", url);
+          if (suppressPushState === false) {
+            var url = nameValuePairs.length > 0 ? (
+              "?" + nameValuePairs.map(function(nvp) {
+                return nvp.name + "=" + nvp.value;
+              }).join("&")) : "";
+
+            var oldParams = toParams(history.state);
+            var newParams = toParams(nameValuePairs);
+            var isSuperset = _.isMatch(newParams, oldParams);
+
+            history[isSuperset ? "replaceState" : "pushState"](nameValuePairs, "", url);
+          }
         });
       this.get = function(name) {
         var queryParam = _.findWhere(queryParams(), {
@@ -62,6 +91,40 @@ define(["knockout"],
           };
           queryParams.push(queryParam);
         }
+        var callback = _.findWhere(callbacks, {
+          name: name
+        });
+        if (callback) {
+          callback.callback(value);
+        }
+      };
+      this.replace = function(params) {
+        queryParams().forEach(function(queryParam) {
+          if (!params.hasOwnProperty(queryParam.name)) {
+            self.set(queryParam.name, undefined);
+          }
+        });
+        for (var name in params) {
+          if (params.hasOwnProperty(name)) {
+            self.set(name, params[name]);
+          }
+        }
+      };
+      this.subscribe = function(name, callback) {
+        callbacks.push({
+          name: name,
+          callback: callback
+        });
+      };
+      this.reset = function(names) {
+        names.forEach(function(name) {
+          var queryParam = _.findWhere(queryParams(), {
+            name: name
+          });
+          if (queryParam) {
+            self.set(name, queryParam.value());
+          }
+        });
       };
     }
 
