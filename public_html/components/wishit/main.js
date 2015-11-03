@@ -30,16 +30,20 @@ define(
           });
       };
       queryParams.subscribe("publicKey", function(publicKey) {
-        if (publicKey) {
+        var selectedList = self.selectedList();
+        if (!selectedList || publicKey !== selectedList.publicKey) {
           $.getJSON("/cgi-bin/wishit/api/get.php", {
               publicKey: publicKey
             })
-            .done(self.load);
-        } else {
-          self.createNew();
+            .done(self.load);         
         }
       });
-      queryParams.reset(["publicKey"]);
+      var publicKey = queryParams.get("publicKey");
+      if (publicKey) {
+        queryParams.reset(["publicKey"]);
+      } else {
+          self.createNew();
+      }
     }
 
     return {

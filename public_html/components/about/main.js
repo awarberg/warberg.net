@@ -1,6 +1,5 @@
-define(["knockout", "text!./main.html"], function (ko, template) {
-  function About(params) {
-  }
+define(["knockout", "text!./main.html"], function(ko, template) {
+  function About(params) {}
 
   return {
     viewModel: About,

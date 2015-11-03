@@ -7,27 +7,25 @@ $json = json_decode($text, true);
 $wishlist = Wishlist::fromJSON($json);
 validate($wishlist);
 
-$pdo = getPDO();
+$redbean = setupRedBean();
 
-$pdo->beginTransaction();
+$persistedWishlist = R::findOne("wishlist", "public_key = ?", [$wishlist->publicKey]);
 
-$sth = $pdo->prepare(
-  "insert into wishlist (public_key,name) values (?,?)"
-);
-$sth->execute([
-   $wishlist->publicKey,
-   $wishlist->name]
-);
-$wishlistId = $pdo->query("select last_insert_rowid()")->fetchColumn();
-
-$sth = $pdo->prepare(
-  "insert into item (wishlist_id,name,priority) values (?,?,?)"
-);
-
-foreach ($wishlist->items as $item) {
-  $sth->execute([$wishlistId, $item->name, $item->priority]);
+if($persistedWishlist == NULL) {
+  $persistedWishlist = R::dispense("wishlist");
 }
 
-$pdo->commit();
+$persistedWishlist->name = $wishlist->name;
+$persistedWishlist->public_key = $wishlist->publicKey;
+
+$persistedWishlist->xownItemList = [];
+foreach($wishlist->items as $item) {
+  $persistedItem = R::dispense("item");
+  $persistedItem->name = $item->name;
+  $persistedItem->priority = $item->priority;
+  $persistedWishlist->xownItemList[] = $persistedItem;
+}
+
+$id = R::store($persistedWishlist);
 
 ?>

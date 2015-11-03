@@ -1,4 +1,4 @@
-define(["knockout", "text!./input-field.html"], function (ko, template) {
+define(["knockout", "text!./input-field.html"], function(ko, template) {
   function InputField(params) {
     this.type = params.type;
     this.value = params.value;

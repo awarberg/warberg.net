@@ -1,6 +1,6 @@
 <?php
 
-require_once("../lib/RedBeanPHP/rb.php");
+require_once("../../lib/RedBeanPHP/rb.php");
 
 require_once("../../shared/core.php");
 require_once("../../shared/json.php");
@@ -51,6 +51,17 @@ function ensureSchema($pdo){
       priority INTEGER,
       FOREIGN KEY(wishlist_id) REFERENCES wishlist(id) ON DELETE CASCADE)"
   );
+}
+
+function setupRedBean() {
+    $filepath =
+      ".." . DIRECTORY_SEPARATOR .
+      ".." . DIRECTORY_SEPARATOR .
+      ".." . DIRECTORY_SEPARATOR .
+      ".." . DIRECTORY_SEPARATOR .
+      "database" . DIRECTORY_SEPARATOR .
+      "wishit.db";
+  return R::setup("sqlite:$filepath");
 }
 
 ?>
