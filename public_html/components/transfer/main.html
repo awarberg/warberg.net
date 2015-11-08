@@ -1,11 +1,11 @@
 <h1>Transfer</h1>
-<form>
+<form data-bind="submit: startTransfer">
   <label>File:
-    <input type="file" placeholder="file" required />
+    <input type="file" id="file" placeholder="file" required />
   </label>
   <br/>
   <label>Send to:
-    <input type="email" placeholder="e-mail" required />
+    <input type="email" id="email" placeholder="e-mail" value="andreas@warberg.net" required />
   </label>
-  <button type="submit">Send</button>
+  <button type="submit">Start transfer</button>
 </form>

@@ -26,7 +26,8 @@ if($receiver){
   fclose($client);
   fclose($input);
 } else {
-  echo 'Waiting...';
+  // Waiting for receiver
+  http_response_code(204);
 }
 
 ?>

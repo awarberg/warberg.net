@@ -23,4 +23,6 @@ function http_error_handler($errNo, $errStr, $errFile, $errLine) {
 
 set_error_handler('http_error_handler');
 
+date_default_timezone_set('UTC');
+
 ?>
