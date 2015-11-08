@@ -7,14 +7,6 @@ require_once("../../shared/json.php");
 require_once("../wishlist.php");
 require_once("../item.php");
 
-function coalesce(&$value, $defaultValue = NULL){
-  return isset($value) ? $value : $defaultValue;
-}
-
-function html_var_dump($obj){
-  echo '<pre>' . var_export($obj, true) . '</pre>';
-}
-
 function validate($wishlist){
   if(!$wishlist->isValid()){
     http_internal_error("Invalid wishlist $wishlist->publicKey");

@@ -16,8 +16,8 @@ ko.components.register("input-field", {
 ko.components.register("about-main", {
   require: "components/about/main"
 });
-ko.components.register("wishit-main", {
-  require: "components/wishit/main"
+ko.components.register("transfer-main", {
+  require: "components/transfer/main"
 });
 
 require(["js/queryParams"], function(queryParams) {
