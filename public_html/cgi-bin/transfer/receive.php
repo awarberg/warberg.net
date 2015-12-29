@@ -23,7 +23,7 @@ $sth = $pdo->prepare("insert into receiver (public_key,socket_name) values (?,?)
 $sth->execute([$key, $socketName]);
 
 try {
-  $client = stream_socket_accept($server, 10);
+  $client = stream_socket_accept($server, 10 * 60);
   $output = fopen('php://output', 'w');
   $filename = trim(fgets($client));
   header('Content-Type: application/octet-stream');

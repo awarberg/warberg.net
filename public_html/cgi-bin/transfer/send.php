@@ -19,15 +19,14 @@ if($receiver){
       throw new UnexpectedValueException("Failed to connect: $errorMessage ($errno)");
   }
   $headers = getallheaders();
-  $filename = $headers['X-Filename'];
-  $input = fopen('php://input', 'r');
+  $filename = $headers['X-Warberg-Filename'];
   fwrite($client, $filename . PHP_EOL);
+  $input = fopen('php://input', 'r');
   stream_copy_to_stream($input, $client);
   fclose($client);
   fclose($input);
 } else {
-  // Waiting for receiver
-  http_response_code(204);
+    throw new UnexpectedValueException("Receiver not found");
 }
 
 ?>

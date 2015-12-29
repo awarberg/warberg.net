@@ -1,5 +1,5 @@
 define(
-  ["knockout", "js/queryParams", "text!./main.html", "./wishlist"],
+  ["knockout", "js/queryParams", "./main.html", "./wishlist"],
   function(ko, queryParams, template, Wishlist) {
 
     function Wishit(json) {
@@ -35,14 +35,14 @@ define(
           $.getJSON("/cgi-bin/wishit/api/get.php", {
               publicKey: publicKey
             })
-            .done(self.load);         
+            .done(self.load);
         }
       });
       var publicKey = queryParams.get("publicKey");
       if (publicKey) {
         queryParams.reset(["publicKey"]);
       } else {
-          self.createNew();
+        self.createNew();
       }
     }
 

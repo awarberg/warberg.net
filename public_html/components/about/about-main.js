@@ -1,4 +1,4 @@
-define(["knockout", "text!./main.html"], function(ko, template) {
+define(["knockout", "./about-main.html"], function(ko, template) {
   function About(params) {}
 
   return {
