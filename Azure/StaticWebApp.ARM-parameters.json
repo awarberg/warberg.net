@@ -1,0 +1,36 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "name": {
+      "value": "warberg-net"
+    },
+    "location": {
+      "value": "westeurope"
+    },
+    "sku": {
+      "value": "Free"
+    },
+    "skucode": {
+      "value": "Free"
+    },
+    "repositoryUrl": {
+      "value": "https://github.com/awarberg/warberg.net"
+    },
+    "branch": {
+      "value": "master"
+    },
+    "repositoryToken": {
+      "value": null
+    },
+    "appLocation": {
+      "value": "Client"
+    },
+    "apiLocation": {
+      "value": "Api"
+    },
+    "appArtifactLocation": {
+      "value": "wwwroot"
+    }
+  }
+}
